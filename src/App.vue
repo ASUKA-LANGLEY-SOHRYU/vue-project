@@ -1,30 +1,45 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+<div class="root">
+    <HeaderComp class="header_component" :idk_count="basket.length"/>
+    <MainComp @addToBasket="addToBasket"></MainComp>
+    <FooterComp class="footer_component"/>
+</div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue'
+import HeaderComp from '@/components/HeaderComp.vue'
+import MainComp from '@/components/MainComp.vue'
+import FooterComp from '@/components/FooterComp.vue'
+export default defineComponent({
+    name: 'App',
+    components:{
+        HeaderComp,
+        MainComp,
+        FooterComp
+    },
+    data() {
+        return {
+            basket: [] as number[]
+        }
+    },
+    methods:{
+        addToBasket(id: number){
+            if(this.basket.includes(id))
+                this.basket = this.basket.filter(item => item != id)
+            else
+                this.basket.push(id)
+        }
+    }
+})
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@font-face {
+    font-family: 'Open Sans';
+    src: url(@/fonts/Open_Sans/static/OpenSans-Regular.ttf);
 }
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.root{
+    min-height: 100%;
 }
 </style>
